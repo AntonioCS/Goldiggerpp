@@ -23,13 +23,13 @@
 #include "src/AcsGE/Util/ColorList.h"
 #include "src/AcsGE/Window.h"
 #include "src/AcsGE/Texture.h"
-#include "src/Game/EntitySprite.h"
+//#include "src/Game/EntitySprite.h"
 #include "src/AcsGE/ECS/Entity.h"
 #include "src/AcsGE/ECS/Components/SpriteComponent.h"
 
 constexpr int mapLength = 20;
 constexpr int mapHeight = 10;
-using EntityMap = std::array<std::array<std::unique_ptr<Entity>, mapLength>, mapHeight>;
+using EntityMap = std::array<std::array<std::unique_ptr<AcsGameEngine::ECS::Entity>, mapLength>, mapHeight>;
 
 void readMap(std::string mapFilePath) {
 	//0 = nothing
@@ -111,7 +111,9 @@ int main(int argc, char *argv[])
 
 
 	//using AcsGameEngine::ECS::Entity;
-	std::array<std::array<std::unique_ptr<EntitySprite>, mapLength>, mapHeight> mapEntities;
+	//std::array<std::array<std::unique_ptr<EntitySprite>, mapLength>, mapHeight> mapEntities;
+	//std::array<std::array<std::unique_ptr<Entity>, mapLength>, mapHeight> mapEntities;
+	EntityMap mapEntities;
 	std::unordered_map<int, std::string> mapMappings{
 		{1, "block_grass"},
 		{2, "block"},
@@ -145,7 +147,7 @@ int main(int argc, char *argv[])
 	//EntitySprite backgroundSprite(backgroundTexture, { 0, 0, 2000, 741 });
 	//backgroundSprite.getSprite().setDestinationXYWH(0, 0, 1280, 640);
 
-	/*
+	///*
 	//readMap("assets/levels/level1");
 	std::string mapFilePath{ "assets/levels/level1" };
 	std::ifstream mapFile{ mapFilePath };
@@ -169,8 +171,13 @@ int main(int argc, char *argv[])
 				//mapEntities[]
 				if (mapValue != 0) {
 					//if (mapValue == 1 || mapValue == 2) {
-					mapEntities[height][width] = std::make_unique<EntitySprite>(&spritesTexture, spriteMappings[mapMappings[mapValue]]);
-					mapEntities[height][width].get()->getSprite().setDestinationXY(currentMoveByX, currentMoveByY);
+					//mapEntities[height][width] = std::make_unique<EntitySprite>(&spritesTexture, spriteMappings[mapMappings[mapValue]]);
+					//mapEntities[height][width].get()->getSprite().setDestinationXY(currentMoveByX, currentMoveByY);
+					//AcsGameEngine::ECS::Entity e;
+					//e.addComponent<SpriteComponent>(spritesTexture, spriteMappings["block_grass"]);
+					mapEntities[height][width] = std::make_unique<AcsGameEngine::ECS::Entity>();
+					auto &sprite = mapEntities[height][width].get()->addComponent<SpriteComponent>(spritesTexture, spriteMappings[mapMappings[mapValue]]);
+					sprite.getSprite().setDestinationXY(currentMoveByX, currentMoveByY);
 					//}
 				}
 				width++;
@@ -183,7 +190,8 @@ int main(int argc, char *argv[])
 			height++;
 		}
 
-	}*/
+	}
+	//*/
 	//else {
 		//throw std::runtime_error(std::string{ "Unable to open map file: " + mapFilePath });
 	//}
@@ -194,6 +202,8 @@ int main(int argc, char *argv[])
 	AcsGameEngine::ECS::Entity e;
 	auto &sprite = e.addComponent<SpriteComponent>(spritesTexture, spriteMappings["block_grass"]);
 	sprite.getSprite().setDestinationXY(20, 20);
+
+	auto &thesprite = sprite.getSprite();
 
 	//entities.push_back(e);
 
@@ -218,8 +228,8 @@ int main(int argc, char *argv[])
 			renderer.Clear(ColorList::white);
 
 			//renderer.DrawSprite(backgroundSprite.getSprite());
-			auto &x = e.getComponent<AcsGameEngine::ECS::SpriteComponent>().getSprite();
-			renderer.DrawSprite(e.getComponent<AcsGameEngine::ECS::SpriteComponent>().getSprite());
+			//auto &x = e.getComponent<AcsGameEngine::ECS::SpriteComponent>().getSprite();
+			renderer.DrawSprite(e.getComponent<SpriteComponent>().getSprite());
 			//renderer.DrawSprite(sprite.getSprite());
 			//renderer.DrawSprite(es.getSprite());
 
@@ -231,11 +241,12 @@ int main(int argc, char *argv[])
 			//renderer.DrawSprite(spr);
 
 			
-			/*
+			///*
 			for (int mHeight = 0; mHeight < mapHeight; mHeight++) {
 				for (int mLength = 0; mLength < mapLength; mLength++) {
 					if (mapEntities[mHeight][mLength]) {
-						auto &spr = mapEntities[mHeight][mLength].get()->getSprite();
+						auto &spr = mapEntities[mHeight][mLength].get()->getComponent<SpriteComponent>().getSprite();
+							//->getComponent<SpriteComponent>.getSprite();
 						//auto s = spr.getDestination();
 						//std::cout << " - X:" << s.x  << " - Y:" << s.y << " - [" << mHeight << "," << mLength << "]" << " | ";
 						renderer.DrawSprite(spr);

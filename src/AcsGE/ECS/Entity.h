@@ -50,9 +50,12 @@ namespace AcsGameEngine::ECS {
 			auto ComponentKey = getComponentId<T>();
 			auto result = m_components.find(ComponentKey);
 
-			if (result != m_components.end()) {
+			if (result != m_components.end()) {				
+				return *static_cast<T*>(result->second.get());
+
 				//https://github.com/SuperV1234/Tutorials/blob/master/DiveIntoC%2B%2B11/5_Entities/p9.cpp#L131
-				return *reinterpret_cast<T*>(result->second.get());
+				//Will cause read access violation
+				//return *reinterpret_cast<T*>(result->second.get());
 			}
 
 			throw std::exception{ "No matching Component" };
