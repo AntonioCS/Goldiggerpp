@@ -9,7 +9,7 @@ class EntitySprite : public Entity
 {
 	AcsGameEngine::Sprite m_sprite;
 public:
-	EntitySprite(AcsGameEngine::Texture *texture, SDL_Rect s);
+	EntitySprite(AcsGameEngine::Texture &texture, SDL_Rect s);
 	~EntitySprite();
 
 	AcsGameEngine::Sprite &getSprite() noexcept;

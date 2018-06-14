@@ -4,12 +4,12 @@
 #include "Window.h"
 
 namespace AcsGameEngine {
-	Sprite::Sprite() : m_texture(nullptr)
+/*	Sprite::Sprite() : m_texture(nullptr)
 	{
 
-	}
+	}*/
 
-	Sprite::Sprite(Texture *texture, SDL_Rect source) : m_texture(texture), m_source(source)
+	Sprite::Sprite(Texture &texture, SDL_Rect source) : m_texture(texture), m_source(source)
 	{
 		m_destination.w = m_source.w;
 		m_destination.h = m_source.h;
@@ -98,7 +98,7 @@ namespace AcsGameEngine {
 	}
 	const Texture & Sprite::getTexture() const noexcept
 	{
-		return *m_texture;
+		return m_texture;
 	}
 
 } // namespace AcsGameEngine

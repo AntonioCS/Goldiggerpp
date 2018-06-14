@@ -9,7 +9,7 @@ namespace AcsGameEngine::ECS {
 	{
 		Sprite m_sprite;
 	public:
-		SpriteComponent(Texture *texture, SDL_Rect s);
+		SpriteComponent(Texture &texture, SDL_Rect s);
 		Sprite &getSprite();
 
 		virtual ~SpriteComponent() = default;

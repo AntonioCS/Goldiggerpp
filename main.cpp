@@ -24,8 +24,8 @@
 #include "src/AcsGE/Window.h"
 #include "src/AcsGE/Texture.h"
 #include "src/Game/EntitySprite.h"
-//#include "src/AcsGE/ECS/Entity.h"
-//#include "src/AcsGE/ECS/Components/SpriteComponent.h"
+#include "src/AcsGE/ECS/Entity.h"
+#include "src/AcsGE/ECS/Components/SpriteComponent.h"
 
 constexpr int mapLength = 20;
 constexpr int mapHeight = 10;
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 	*/
 
 	using AcsGameEngine::Util::ColorList;
-	//using AcsGameEngine::ECS::SpriteComponent;
+	using AcsGameEngine::ECS::SpriteComponent;
 
 	AcsGameEngine::Window window{ "Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280 , 640 };
 	AcsGameEngine::Renderer renderer(window);
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 		{"block", {64, 384, 64, 64}},
 		{"block_snow", { 128, 383, 64, 64}},
 		{"gold", {192,383,64,64}},
-		{"green_ladder", {256, 383, 64, 64 }},
+		{"green_ladder", {256, 384, 64, 64 }},
 		{"spikes", {320, 383, 64, 64 }},
 		{"ladder", {384, 383, 64, 64 }},
 		{"player", {0, 0, 45, 64}},
@@ -133,12 +133,19 @@ int main(int argc, char *argv[])
 		{"porta_blue", {0, 710, 59, 120 }}
 		//{"background_cave",{ 0, 0, 2000, 741 } }
 	};
+	/*
+	std::unordered_map<std::string, AcsGameEngine::Texture> backgrounds{
+		{"cave", renderer.make_texture("assets/images/cave-background.jpg")},
+		{"cave2", renderer.make_texture("assets/images/cave-background2.jpg")},
+		{"snowy", renderer.make_texture("assets/images/snowy-background.jpg")},
+	};*/
 
 	auto spritesTexture = renderer.make_texture("assets/images/Sprites.png");
 	auto backgroundTexture = renderer.make_texture("assets/images/cave-background.jpg");
-	EntitySprite backgroundSprite(&backgroundTexture, { 0, 0, 2000, 741 });
-	backgroundSprite.getSprite().setDestinationXYWH(0, 0, 1280, 640);
+	//EntitySprite backgroundSprite(backgroundTexture, { 0, 0, 2000, 741 });
+	//backgroundSprite.getSprite().setDestinationXYWH(0, 0, 1280, 640);
 
+	/*
 	//readMap("assets/levels/level1");
 	std::string mapFilePath{ "assets/levels/level1" };
 	std::ifstream mapFile{ mapFilePath };
@@ -176,7 +183,7 @@ int main(int argc, char *argv[])
 			height++;
 		}
 
-	}
+	}*/
 	//else {
 		//throw std::runtime_error(std::string{ "Unable to open map file: " + mapFilePath });
 	//}
@@ -184,9 +191,9 @@ int main(int argc, char *argv[])
 
 	//EntitySprite es{ &spritesTexture, spriteMappings["block_grass"] };
 	//es.getSprite().setDestinationXY(20, 20);
-	//Entity e;
-	//auto &sprite = e.addComponent<SpriteComponent>(spritesTexture, spriteMappings["block_grass"]);
-	//sprite.getSprite().setDestinationXY(20, 20);
+	AcsGameEngine::ECS::Entity e;
+	auto &sprite = e.addComponent<SpriteComponent>(spritesTexture, spriteMappings["block_grass"]);
+	sprite.getSprite().setDestinationXY(20, 20);
 
 	//entities.push_back(e);
 
@@ -210,10 +217,9 @@ int main(int argc, char *argv[])
 
 			renderer.Clear(ColorList::white);
 
-			//game.update();
-			//game.draw();
-
-			//renderer.DrawSprite(e.getComponent<AcsGameEngine::ECS::SpriteComponent>().getSprite());
+			//renderer.DrawSprite(backgroundSprite.getSprite());
+			auto &x = e.getComponent<AcsGameEngine::ECS::SpriteComponent>().getSprite();
+			renderer.DrawSprite(e.getComponent<AcsGameEngine::ECS::SpriteComponent>().getSprite());
 			//renderer.DrawSprite(sprite.getSprite());
 			//renderer.DrawSprite(es.getSprite());
 
@@ -224,8 +230,8 @@ int main(int argc, char *argv[])
 			//auto &spr = mapEntities[1][0].get()->getSprite();			
 			//renderer.DrawSprite(spr);
 
-			renderer.DrawSprite(backgroundSprite.getSprite());
-			///*
+			
+			/*
 			for (int mHeight = 0; mHeight < mapHeight; mHeight++) {
 				for (int mLength = 0; mLength < mapLength; mLength++) {
 					if (mapEntities[mHeight][mLength]) {
