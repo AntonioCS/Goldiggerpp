@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 
 			//renderer.DrawSprite(backgroundSprite.getSprite());
 			//auto &x = e.getComponent<AcsGameEngine::ECS::SpriteComponent>().getSprite();
-			renderer.DrawSprite(e.getComponent<SpriteComponent>().getSprite());
+			//renderer.DrawSprite(e.getComponent<SpriteComponent>().getSprite());
 			//renderer.DrawSprite(sprite.getSprite());
 			//renderer.DrawSprite(es.getSprite());
 
