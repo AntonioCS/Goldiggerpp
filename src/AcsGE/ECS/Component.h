@@ -7,6 +7,8 @@ namespace AcsGameEngine::ECS {
 	class Component {
 	public:
 		Entity * parentEntity;
+
+		virtual ~Component() {}
 	};
 
 }
