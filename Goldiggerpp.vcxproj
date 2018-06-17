@@ -157,9 +157,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\AcsGE\ECS\Components\RenderableComponent.cpp" />
+    <ClCompile Include="src\AcsGE\ECS\EntityManager.cpp" />
     <ClCompile Include="src\AcsGE\Animation.cpp" />
-    <ClCompile Include="src\Game\EntitySprite.cpp" />
-    <ClCompile Include="src\Game\Entity.cpp" />
     <ClCompile Include="src\AcsGE\ECS\Components\SpriteComponent.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -172,12 +172,14 @@
     <ClCompile Include="src\AcsGE\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AcsGE\ECS\Components\RenderableComponent.h" />
+    <ClInclude Include="src\AcsGE\ECS\EntityManager.h" />
     <ClInclude Include="src\AcsGE\Animation.h" />
-    <ClInclude Include="src\Game\EntitySprite.h" />
-    <ClInclude Include="src\Game\Entity.h" />
     <ClInclude Include="src\AcsGE\ECS\Components\SpriteComponent.h" />
     <ClInclude Include="src\AcsGE\ECS\Entity.h" />
     <ClInclude Include="src\AcsGE\ECS\Component.h" />
+    <ClInclude Include="src\AcsGE\ECS\System.h" />
+    <ClInclude Include="src\CustomComponents\MapItemComponent.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\AcsGE\EventManager.h" />
     <ClInclude Include="src\AcsGE\Messages.h" />
