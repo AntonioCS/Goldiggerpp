@@ -6,7 +6,7 @@
 namespace AcsGameEngine {
 	class Texture {
 	public:
-		explicit Texture(SDL_Texture*);
+		Texture(SDL_Texture*);
 
 		SDL_Texture* getRawPointer() const;
 
