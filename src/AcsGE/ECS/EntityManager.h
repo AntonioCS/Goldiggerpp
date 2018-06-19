@@ -24,7 +24,7 @@ namespace AcsGameEngine::ECS {
 		std::vector<std::reference_wrapper<Entity>> findByComponent() {
 			std::vector<std::reference_wrapper<Entity>> ve;
 			for (auto &e : m_entities) {
-				if (e.get()->hasComponents<Types...>()) {
+				if (e.get()->template  hasComponents<Types...>()) {
 					ve.push_back(*e);
 				}
 			}
