@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <memory> //unique_ptr
+#include <functional> //std::reference_wrapper
+//#include "Entity.h"
 
 namespace AcsGameEngine::ECS {
 
@@ -16,9 +18,18 @@ namespace AcsGameEngine::ECS {
 		~EntityManager();
 
 		Entity &make_entity();
-		
-		std::vector<Entity&> findByComponent() {
 
+
+		template<typename... Types>
+		std::vector<std::reference_wrapper<Entity>> findByComponent() {
+			std::vector<std::reference_wrapper<Entity>> ve;
+			for (auto &e : m_entities) {
+				if (e.get()->hasComponents<Types...>()) {
+					ve.push_back(*e);
+				}
+			}
+
+			return ve;
 		}
 	};
 }
