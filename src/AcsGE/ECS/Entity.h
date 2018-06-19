@@ -66,5 +66,17 @@ namespace AcsGameEngine::ECS {
 			auto ComponentKey = getComponentId<T>();
 			return (m_components.find(ComponentKey) != m_components.end());
 		}
+
+		template<typename T, typename... MoreComponents>
+		bool hasComponents() {
+			if constexpr (sizeof...(MoreComponents) == 0)
+			{
+				return hasComponent<T>();
+			}
+			else
+			{
+				return hasComponent<T>() && hasComponents<MoreComponents...>();
+			}
+		}
 	};
 }
