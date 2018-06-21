@@ -24,7 +24,9 @@
 #include "src/AcsGE/Window.h"
 #include "src/AcsGE/Texture.h"
 #include "src/AcsGE/ECS/EntityManager.h"
+#include "src/AcsGE/ECS/Components/SpriteComponent.h"
 #include "src/Game.h"
+#include "src/MapSystem.h"
 
 int main(int argc, char *argv[])
 {
@@ -71,12 +73,13 @@ int main(int argc, char *argv[])
 	std::chrono::system_clock::time_point frameStart;
 	std::chrono::system_clock::duration frameTime{};
 	Game game{renderer, entityManager};
+	MapSystem msystem{ renderer, entityManager };
+
+	msystem.init();
 
 	eventManager.onQuit([&running](SDL_Event & e) {
 		running = false;
 	});
-
-
 
 	while (running) {
 		try {
@@ -84,6 +87,8 @@ int main(int argc, char *argv[])
 			eventManager.processEvents();
 
 			renderer.Clear(ColorList::white);
+
+			msystem.render();
 
 			renderer.Present();
 
