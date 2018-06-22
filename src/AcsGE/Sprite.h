@@ -3,11 +3,10 @@
 
 #include <SDL2/SDL.h>
 #include <memory>
+#include "Texture.h"
 
 namespace AcsGameEngine {
 
-	class Renderer;
-	class Texture;
 
 	class Sprite {
 	private:
@@ -19,8 +18,6 @@ namespace AcsGameEngine {
 		Sprite(Texture &texture, SDL_Rect);
 		Sprite(Sprite&& other);
 		virtual ~Sprite();
-
-		//inline bool hasTexture() const noexcept { return m_texture != nullptr; }
 
 		void setSourceDestination(SDL_Rect, SDL_Rect);
 		void setSource(const SDL_Rect&);
