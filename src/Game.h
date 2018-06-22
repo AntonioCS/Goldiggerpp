@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "AcsGE/EventManager.h"
 #include "AcsGE/Renderer.h"
 #include "AcsGE/Util/ColorList.h"
@@ -58,6 +57,7 @@ class Game
 	const int m_mapHeight = 10;
 
 	void generateMap(std::string pathToMap);
+	void createEntityType(int value);
 public:
 	Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager &em);
 	~Game();
