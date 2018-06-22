@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\MapSystem.cpp" />
     <ClCompile Include="src\AcsGE\ECS\Components\RenderableComponent.cpp" />
     <ClCompile Include="src\AcsGE\ECS\EntityManager.cpp" />
     <ClCompile Include="src\AcsGE\Animation.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="src\AcsGE\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\MapSystem.h" />
     <ClInclude Include="src\AcsGE\ECS\Components\RenderableComponent.h" />
     <ClInclude Include="src\AcsGE\ECS\EntityManager.h" />
     <ClInclude Include="src\AcsGE\Animation.h" />
