@@ -25,8 +25,11 @@
 #include "src/AcsGE/Texture.h"
 #include "src/AcsGE/ECS/EntityManager.h"
 #include "src/AcsGE/ECS/Components/SpriteComponent.h"
+#include "src/AcsGE/ECS/Systems/RendererSystem.h"
+#include "src/CustomSystems/MapSystem.h"
 #include "src/Game.h"
-#include "src/MapSystem.h"
+#include "src/CustomSystems/OverlaySystem.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -62,8 +65,11 @@ int main(int argc, char *argv[])
 	*/
 
 	using AcsGameEngine::Util::ColorList;
+	constexpr int windowWidth{ 1280 };
+	constexpr int windowHeight{ 640 };
+	constexpr int blockSize{ 64 };
 
-	AcsGameEngine::Window window{ "Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280 , 640 };
+	AcsGameEngine::Window window{ "Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth , windowHeight };
 	AcsGameEngine::Renderer renderer(window);
 	AcsGameEngine::EventManager eventManager;
 	AcsGameEngine::ECS::EntityManager entityManager;
@@ -73,9 +79,13 @@ int main(int argc, char *argv[])
 	std::chrono::system_clock::time_point frameStart;
 	std::chrono::system_clock::duration frameTime{};
 	Game game{renderer, entityManager};
-	MapSystem msystem{ renderer, entityManager };
+	AcsGameEngine::ECS::RendererSystem renderSystem{ entityManager, renderer };
+	MapSystem msystem{ entityManager, renderer };
+	OverlaySystem overlaySystem{ entityManager };
 
 	msystem.init();
+	renderSystem.init();
+	overlaySystem.init();
 
 	eventManager.onQuit([&running](SDL_Event & e) {
 		running = false;
@@ -86,8 +96,11 @@ int main(int argc, char *argv[])
 			frameStart = std::chrono::system_clock::now();
 			eventManager.processEvents();
 
+			overlaySystem.update(1.0);
+
 			renderer.Clear(ColorList::white);
 
+			renderSystem.render();
 			msystem.render();
 
 			renderer.Present();
