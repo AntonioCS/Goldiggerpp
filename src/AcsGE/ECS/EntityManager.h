@@ -4,7 +4,6 @@
 #include <vector>
 #include <memory> //unique_ptr
 #include <functional> //std::reference_wrapper
-//#include "Entity.h"
 
 namespace AcsGameEngine::ECS {
 
