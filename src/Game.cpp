@@ -7,6 +7,7 @@
 #include "AcsGE/ECS/Components/RenderableComponent.h"
 #include "AcsGE/ECS/Components/SpriteComponent.h"
 #include "CustomComponents/MapItemComponent.h"
+#include "CustomComponents/PlayerComponent.h"
 
 using Entity = AcsGameEngine::ECS::Entity;
 using RenderableComponent = AcsGameEngine::ECS::RenderableComponent;
@@ -28,10 +29,10 @@ void Game::generateMap(std::string pathToMap)
 			std::istringstream mapLineStream(line);
 
 			while (mapLineStream >> mapValue) {
+				auto &e = m_em.make_entity();
+
 				if (mapValue != 0) {
 					//createEntityType(mapValue);
-
-					auto &e = m_em.make_entity();
 
 					e.addComponent<SpriteComponent>(
 						m_spritesTexture,
@@ -40,8 +41,11 @@ void Game::generateMap(std::string pathToMap)
 						currentMoveByY
 					);
 					e.addComponent<RenderableComponent>();
-					e.addComponent<MapItemComponent>();
 				}
+
+				e.addComponent<MapItemComponent>(currentMoveByX, currentMoveByY, moveBy, moveBy);
+
+
 				currentMoveByX += moveBy;
 			}
 
@@ -63,6 +67,18 @@ Game::Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager 
 {
 	m_spritesTexture = m_renderer.make_texture(m_imagesPaths["spritesSheet"]);
 	generateMap(m_levelsPaths["level1"]);
+
+	//add player
+	auto &e = m_em.make_entity();
+	e.addComponent<SpriteComponent>(
+		m_spritesTexture,
+		m_spriteMappings["player"],
+		30,
+		50
+	);
+	e.addComponent<PlayerComponent>();
+	e.addComponent<RenderableComponent>();
+
 	//auto backgroundTexture = renderer.make_texture("assets/images/cave-background.jpg");
 }
 
