@@ -13,7 +13,6 @@ namespace AcsGameEngine {
 Renderer::Renderer(const Window& window, int index, Uint32 flags)
     : m_renderer(createRendererPointer(window.getRawPointer(), index, flags), SDL_DestroyRenderer)
     , m_window(window)
-    , m_tf(*this)
 {
 
     if (m_renderer == nullptr) {
@@ -25,6 +24,22 @@ Renderer::Renderer(const Window& window, int index, Uint32 flags)
 SDL_Renderer* Renderer::createRendererPointer(SDL_Window* w, int index, Uint32 flags)
 {
     return SDL_CreateRenderer(w, index, flags);
+}
+
+Renderer & Renderer::operator=(const Renderer & other)
+{
+	if (&other != this) {
+
+	}
+	return *this;
+}
+
+Renderer & Renderer::operator=(Renderer && other)
+{
+	if (&other != this) {
+
+	}
+	return *this;
 }
 
 void Renderer::DrawColor(const Util::ColorList::Color& color, uint8_t alpha) const
