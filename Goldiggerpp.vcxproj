@@ -157,7 +157,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\MapSystem.cpp" />
+    <ClCompile Include="src\AcsGE\ECS\Systems\RendererSystem.cpp" />
+    <ClCompile Include="src\CustomSystems\OverlaySystem.cpp" />
+    <ClCompile Include="src\CustomSystems\PlayerSystem.cpp" />
+    <ClCompile Include="src\CustomComponents\PlayerComponent.h" />
+    <ClCompile Include="src\CustomSystems\MapSystem.cpp" />
     <ClCompile Include="src\AcsGE\ECS\Components\RenderableComponent.cpp" />
     <ClCompile Include="src\AcsGE\ECS\EntityManager.cpp" />
     <ClCompile Include="src\AcsGE\Animation.cpp" />
@@ -173,7 +177,10 @@
     <ClCompile Include="src\AcsGE\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\MapSystem.h" />
+    <ClInclude Include="src\AcsGE\ECS\Systems\RendererSystem.h" />
+    <ClInclude Include="src\CustomSystems\OverlaySystem.h" />
+    <ClInclude Include="src\CustomSystems\PlayerSystem.h" />
+    <ClInclude Include="src\CustomSystems\MapSystem.h" />
     <ClInclude Include="src\AcsGE\ECS\Components\RenderableComponent.h" />
     <ClInclude Include="src\AcsGE\ECS\EntityManager.h" />
     <ClInclude Include="src\AcsGE\Animation.h" />
@@ -182,6 +189,7 @@
     <ClInclude Include="src\AcsGE\ECS\Component.h" />
     <ClInclude Include="src\AcsGE\ECS\System.h" />
     <ClInclude Include="src\CustomComponents\MapItemComponent.h" />
+    <ClInclude Include="src\CustomComponents\OverlayComponent.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\AcsGE\EventManager.h" />
     <ClInclude Include="src\AcsGE\Messages.h" />
