@@ -6,6 +6,7 @@
 #include "AcsGE/Window.h"
 #include "AcsGE/Texture.h"
 #include "AcsGE/ECS/EntityManager.h"
+#include "GameValues.h"
 
 namespace {
 	constexpr int mapLength = 20;
@@ -53,13 +54,14 @@ class Game
 	AcsGameEngine::Renderer &m_renderer;
 	AcsGameEngine::ECS::EntityManager &m_em;
 	AcsGameEngine::Texture m_spritesTexture{ nullptr };
+	GameValues const &m_gameValue;
 	const int m_mapLength = 20;
 	const int m_mapHeight = 10;
 
 	void generateMap(std::string pathToMap);
 	void createEntityType(int value);
 public:
-	Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager &em);
+	Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager &em, GameValues const &);
 	~Game();
 };
 

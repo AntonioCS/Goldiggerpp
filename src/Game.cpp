@@ -39,7 +39,7 @@ void Game::generateMap(std::string pathToMap)
 						m_spriteMappings[m_mapMappings[mapValue]],
 						currentMoveByX,
 						currentMoveByY
-					);
+						);
 					e.addComponent<RenderableComponent>();
 				}
 
@@ -63,7 +63,8 @@ void Game::createEntityType(int value) {
 }
 
 
-Game::Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager &em) : m_renderer(renderer), m_em(em)
+Game::Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager &em, GameValues const &gameValue) :
+	m_renderer(renderer), m_em(em), m_gameValue(gameValue)
 {
 	m_spritesTexture = m_renderer.make_texture(m_imagesPaths["spritesSheet"]);
 	generateMap(m_levelsPaths["level1"]);
@@ -75,7 +76,7 @@ Game::Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager 
 		m_spriteMappings["player"],
 		30,
 		50
-	);
+		);
 	e.addComponent<PlayerComponent>();
 	e.addComponent<RenderableComponent>();
 
