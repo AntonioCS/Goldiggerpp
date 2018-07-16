@@ -27,6 +27,7 @@
 #include "src/AcsGE/ECS/Components/SpriteComponent.h"
 #include "src/AcsGE/ECS/Systems/RendererSystem.h"
 #include "src/CustomSystems/MapSystem.h"
+#include "src/GameValues.h"
 #include "src/Game.h"
 #include "src/CustomSystems/OverlaySystem.h"
 
@@ -69,16 +70,18 @@ int main(int argc, char *argv[])
 	constexpr int windowHeight{ 640 };
 	constexpr int blockSize{ 64 };
 
-	AcsGameEngine::Window window{ "Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth , windowHeight };
+	GameValues gameValues;
+	gameValues.windowWidth = 1280;
+	gameValues.windowHeight = 640;
+	gameValues.blockSize = 64;
+
+	AcsGameEngine::Window window{ "Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, gameValues.windowWidth , gameValues.windowHeight };
 	AcsGameEngine::Renderer renderer(window);
 	AcsGameEngine::EventManager eventManager;
 	AcsGameEngine::ECS::EntityManager entityManager;
 	bool running{ true };
-	constexpr uint8_t framesPerSecond = 60;
-	constexpr std::chrono::milliseconds frameDelay{ 1000 / framesPerSecond };
-	std::chrono::system_clock::time_point frameStart;
-	std::chrono::system_clock::duration frameTime{};
-	Game game{renderer, entityManager};
+	
+	Game game{renderer, entityManager, gameValues };
 	AcsGameEngine::ECS::RendererSystem renderSystem{ entityManager, renderer };
 	MapSystem msystem{ entityManager, renderer };
 	OverlaySystem overlaySystem{ entityManager };
@@ -91,25 +94,45 @@ int main(int argc, char *argv[])
 		running = false;
 	});
 
-	while (running) {
-		try {
-			frameStart = std::chrono::system_clock::now();
-			eventManager.processEvents();
+	// https://gist.github.com/mariobadr/673bbd5545242fcf9482
+	using namespace std::chrono_literals;
+	using clock = std::chrono::high_resolution_clock;
+	
+	// we use a fixed timestep of 1 / (60 fps) = 16 milliseconds
+	//constexpr std::chrono::milliseconds timeStep{ 16ms };
+	constexpr std::chrono::milliseconds timeStep{ 12ms };
 
-			overlaySystem.update(1.0);
+	std::chrono::milliseconds accumulator{};
+	std::chrono::milliseconds frameTime{}; //deltaTime I prefer the word frameTime
+	auto timeStart = clock::now();
+	// http://gameprogrammingpatterns.com/game-loop.html#play-catch-up
+	while (running) {
+		auto timeCurrent = clock::now();
+		frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeCurrent - timeStart);
+		timeStart = timeCurrent;
+		accumulator += frameTime;
+
+		try {
+			eventManager.processEvents();
+			
+
+			while (accumulator >= timeStep)
+			{
+				//std::cout << std::chrono::duration_cast<std::chrono::duration<double>>(timeStep).count() << '\n';
+				//std::cout << std::chrono::duration_cast<std::chrono::duration<double>>(accumulator).count() << '\n';
+				//std::cin.get();
+
+				//overlaySystem.update(timeStep);
+				//overlaySystem.update(0.0f);
+				accumulator -= timeStep;
+			}
 
 			renderer.Clear(ColorList::white);
 
 			renderSystem.render();
-			msystem.render();
+			//msystem.render();
 
 			renderer.Present();
-
-			frameTime = std::chrono::system_clock::now() - frameStart;
-
-			if (frameDelay > frameTime) {
-				std::this_thread::sleep_for(frameDelay - frameTime);
-			}
 		}
 		catch (const std::exception &e) {
 			std::cout << "Exception: " << e.what();
