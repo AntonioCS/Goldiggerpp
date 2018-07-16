@@ -199,6 +199,7 @@
     <ClInclude Include="src\AcsGE\Util\ColorList.h" />
     <ClInclude Include="src\AcsGE\Util\Mediator.h" />
     <ClInclude Include="src\AcsGE\Window.h" />
+    <ClInclude Include="src\GameValues.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\levels\level1" />
