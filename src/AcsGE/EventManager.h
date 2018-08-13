@@ -18,6 +18,8 @@ namespace AcsGameEngine {
 
         void onKeyDown(eventFunc func);
 
+		void onKeyUp(eventFunc func);
+
         void onQuit(eventFunc func);
 
         void onEvent(Uint32 eventName, eventFunc func);

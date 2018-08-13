@@ -12,6 +12,10 @@ namespace AcsGameEngine {
         attach(SDL_KEYDOWN, std::move(func));
     }
 
+	void EventManager::onKeyUp(eventFunc func) {
+        attach(SDL_KEYUP, std::move(func));
+    }
+
     void EventManager::onQuit(eventFunc func) {
         attach(SDL_QUIT, std::move(func));
     }
