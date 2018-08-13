@@ -3,7 +3,8 @@
 //#include <iostream>
 
 
-MapSystem::MapSystem(EntityManager & em, Renderer & renderer) : AcsGameEngine::ECS::System(em), m_renderer(renderer) {}
+MapSystem::MapSystem(EntityManager & em, Renderer & renderer) : 
+	AcsGameEngine::ECS::System(em), m_renderer(renderer) {}
 
 MapSystem::~MapSystem()
 {
