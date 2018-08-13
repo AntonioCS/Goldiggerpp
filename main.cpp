@@ -30,6 +30,7 @@
 #include "src/GameValues.h"
 #include "src/Game.h"
 #include "src/CustomSystems/OverlaySystem.h"
+#include "src/CustomSystems/PlayerSystem.h"
 
 
 int main(int argc, char *argv[])
@@ -84,11 +85,13 @@ int main(int argc, char *argv[])
 	Game game{renderer, entityManager, gameValues };
 	AcsGameEngine::ECS::RendererSystem renderSystem{ entityManager, renderer };
 	MapSystem msystem{ entityManager, renderer };
-	OverlaySystem overlaySystem{ entityManager };
+	OverlaySystem overlaySystem{ entityManager , eventManager};
+	PlayerSystem playerSystem{ entityManager , eventManager };
 
 	msystem.init();
 	renderSystem.init();
 	overlaySystem.init();
+	playerSystem.init();
 
 	eventManager.onQuit([&running](SDL_Event & e) {
 		running = false;
@@ -123,14 +126,15 @@ int main(int argc, char *argv[])
 				//std::cin.get();
 
 				//overlaySystem.update(timeStep);
-				//overlaySystem.update(0.0f);
+				overlaySystem.update(0.012f);
+				playerSystem.update(0.012f);
 				accumulator -= timeStep;
 			}
 
 			renderer.Clear(ColorList::white);
 
 			renderSystem.render();
-			//msystem.render();
+			msystem.render();
 
 			renderer.Present();
 		}
