@@ -1,5 +1,6 @@
 #include "RendererSystem.h"
 #include "../Components/RenderableComponent.h"
+#include "../Components/SpriteComponent.h"
 
 namespace AcsGameEngine::ECS {
 

@@ -4,7 +4,6 @@
 #include "../System.h"
 #include "../EntityManager.h"
 #include "../Entity.h"
-#include "../Components/SpriteComponent.h"
 #include "../../Renderer.h"
 
 namespace AcsGameEngine::ECS {
