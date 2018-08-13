@@ -6,6 +6,14 @@
 void OverlaySystem::init()
 {
 	m_vecRef = m_entityManager.findByComponent<MapItemComponent>();
+	m_eventManager.attach(SDL_MOUSEBUTTONUP, [this](SDL_Event &e) {
+		if (e.button.button == SDL_BUTTON_LEFT) {
+			std::cout << "X: " <<
+				m_previousEntity->getComponent<MapItemComponent>().x <<
+				" - - Y: " 	<< m_previousEntity->getComponent<MapItemComponent>().y
+				<< '\n';
+		}
+	});
 }
 
 void OverlaySystem::update(float dt)
