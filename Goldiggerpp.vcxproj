@@ -157,7 +157,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\AcsGE\ECS\Components\ColisionComponent.cpp" />
+    <ClCompile Include="src\AcsGE\ECS\Components\PositionComponent.cpp" />
+    <ClCompile Include="src\AcsGE\ECS\Systems\ColisionSystem.cpp" />
     <ClCompile Include="src\AcsGE\ECS\Systems\RendererSystem.cpp" />
+    <ClCompile Include="src\AcsGE\Util\Vector2D.cpp" />
     <ClCompile Include="src\CustomSystems\OverlaySystem.cpp" />
     <ClCompile Include="src\CustomSystems\PlayerSystem.cpp" />
     <ClCompile Include="src\CustomComponents\PlayerComponent.h" />
@@ -177,7 +181,11 @@
     <ClCompile Include="src\AcsGE\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AcsGE\ECS\Components\ColisionComponent.h" />
+    <ClInclude Include="src\AcsGE\ECS\Components\PositionComponent.h" />
+    <ClInclude Include="src\AcsGE\ECS\Systems\ColisionSystem.h" />
     <ClInclude Include="src\AcsGE\ECS\Systems\RendererSystem.h" />
+    <ClInclude Include="src\AcsGE\Util\Vector2D.h" />
     <ClInclude Include="src\CustomSystems\OverlaySystem.h" />
     <ClInclude Include="src\CustomSystems\PlayerSystem.h" />
     <ClInclude Include="src\CustomSystems\MapSystem.h" />
