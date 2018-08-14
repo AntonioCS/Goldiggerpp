@@ -6,20 +6,37 @@
 #include "AcsGE/ECS/Entity.h"
 #include "AcsGE/ECS/Components/RenderableComponent.h"
 #include "AcsGE/ECS/Components/SpriteComponent.h"
+#include "AcsGE/ECS/Components/PositionComponent.h"
+#include "AcsGE/ECS/Components/ColisionComponent.h"
 #include "CustomComponents/MapItemComponent.h"
 #include "CustomComponents/PlayerComponent.h"
+
+
 
 using Entity = AcsGameEngine::ECS::Entity;
 using RenderableComponent = AcsGameEngine::ECS::RenderableComponent;
 using SpriteComponent = AcsGameEngine::ECS::SpriteComponent;
+using PositionComponent = AcsGameEngine::ECS::PositionComponent;
+using ColisionComponent = AcsGameEngine::ECS::ColisionComponent;
 
-void Game::generateMap(std::string pathToMap)
+void Game::generateMap(std::string pathToMap, std::string backgroundImg)
 {
 	std::ifstream mapFile{ pathToMap };
 
 	if (mapFile.is_open()) {
+		auto &bgEntity = m_em.make_entity();
+
+		m_bgTexture = m_renderer.make_texture(m_imagesPaths[backgroundImg]);
+		SDL_Rect bgRect{ 0, 0, m_backgroundImageDetails[backgroundImg].first, m_backgroundImageDetails[backgroundImg].second };
+
+		bgEntity.addComponent<SpriteComponent>(
+			m_bgTexture,
+			bgRect,
+			0, 0
+		);
+		bgEntity.addComponent<RenderableComponent>();
+
 		std::string line;
-		int moveBy = 64;
 		int currentMoveByY = 0;
 
 		while (std::getline(mapFile, line))
@@ -32,25 +49,27 @@ void Game::generateMap(std::string pathToMap)
 				auto &e = m_em.make_entity();
 
 				if (mapValue != 0) {
-					//createEntityType(mapValue);
+					auto mappings = m_spriteMappings[m_mapMappings[mapValue]];
 
 					e.addComponent<SpriteComponent>(
 						m_spritesTexture,
-						m_spriteMappings[m_mapMappings[mapValue]],
+						mappings,
 						currentMoveByX,
 						currentMoveByY
 						);
 					e.addComponent<RenderableComponent>();
+					e.addComponent<PositionComponent>(currentMoveByX, currentMoveByY);
+					e.addComponent<ColisionComponent>(mappings.w, mappings.h);
 				}
 
-				e.addComponent<MapItemComponent>(currentMoveByX, currentMoveByY, moveBy, moveBy);
+				e.addComponent<MapItemComponent>(currentMoveByX, currentMoveByY, m_gameValue.blockSize, m_gameValue.blockSize);
 
 
-				currentMoveByX += moveBy;
+				currentMoveByX += m_gameValue.blockSize;
 			}
 
 			currentMoveByX = 0;
-			currentMoveByY += moveBy;
+			currentMoveByY += m_gameValue.blockSize;
 		}
 	}
 	else {
@@ -62,25 +81,25 @@ void Game::createEntityType(int value) {
 
 }
 
-
 Game::Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager &em, GameValues const &gameValue) :
 	m_renderer(renderer), m_em(em), m_gameValue(gameValue)
 {
 	m_spritesTexture = m_renderer.make_texture(m_imagesPaths["spritesSheet"]);
-	generateMap(m_levelsPaths["level1"]);
+
+
+	generateMap(m_levelsPaths["level1"], "background_cave");
 
 	//add player
 	auto &e = m_em.make_entity();
 	e.addComponent<SpriteComponent>(
 		m_spritesTexture,
 		m_spriteMappings["player"],
-		30,
-		50
+		192,
+		512
 		);
 	e.addComponent<PlayerComponent>();
 	e.addComponent<RenderableComponent>();
-
-	//auto backgroundTexture = renderer.make_texture("assets/images/cave-background.jpg");
+	e.addComponent<PositionComponent>(192, 512);
 }
 
 Game::~Game()
