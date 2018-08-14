@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility> //std::pair
+
 #include "AcsGE/EventManager.h"
 #include "AcsGE/Renderer.h"
 #include "AcsGE/Util/ColorList.h"
@@ -20,6 +22,12 @@ class Game
 		{"background_cave", "assets/images/cave-background.jpg"},
 		{"background_cave2", "assets/images/cave-background2.jpg"},
 		{"background_snowy", "assets/images/snowy-background.jpg"}
+	};
+
+	std::unordered_map<std::string, std::pair<int, int>> m_backgroundImageDetails{
+		{"background_cave", {2000, 741}},
+		{"background_cave2", {1024, 640}},
+		{"background_snowy", {11951, 668}},
 	};
 
 	std::unordered_map<std::string, std::string> m_levelsPaths{
@@ -54,14 +62,15 @@ class Game
 	AcsGameEngine::Renderer &m_renderer;
 	AcsGameEngine::ECS::EntityManager &m_em;
 	AcsGameEngine::Texture m_spritesTexture{ nullptr };
+	AcsGameEngine::Texture m_bgTexture{ nullptr };
 	GameValues const &m_gameValue;
 	const int m_mapLength = 20;
 	const int m_mapHeight = 10;
 
-	void generateMap(std::string pathToMap);
 	void createEntityType(int value);
 public:
 	Game(AcsGameEngine::Renderer &renderer, AcsGameEngine::ECS::EntityManager &em, GameValues const &);
+	void generateMap(std::string pathToMap, std::string backgroundImgPath);
 	~Game();
 };
 
